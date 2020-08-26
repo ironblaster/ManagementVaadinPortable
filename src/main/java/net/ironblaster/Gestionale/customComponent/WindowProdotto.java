@@ -148,23 +148,29 @@ public class WindowProdotto extends Window{
 	        });
 	        
 	        Grid.Column<Seriale,String> primaColonna = griglia.addColumn(Seriale::getSeriale).setCaption("Seriale");
-	        Grid.Column<Seriale,Date> secondaColonna = griglia.addColumn(Seriale::getData).setCaption("Data");
+	        Grid.Column<Seriale,String> secondaColonna = griglia.addColumn(Seriale::getDocumento).setCaption("Doc");
+	        Grid.Column<Seriale,String> terzaColonna = griglia.addColumn(Seriale::getCliente).setCaption("Cliente");
 		
-		secondaColonna.setRenderer(new DateRenderer(StaticUtil.dateFormatOnlydayItalian));  
+		
 		
       		TextField primoFiltro = new TextField();
-      		primoFiltro.addValueChangeListener(event ->{
-      			
-      			dataProvider.addFilter(prodottorecord -> StringUtils.containsIgnoreCase(prodottorecord.getSeriale(),primoFiltro.getValue()));
-      			});
       		primoFiltro.setValueChangeMode(ValueChangeMode.EAGER);
       		ricerche.getCell(primaColonna).setComponent(primoFiltro);
       		primoFiltro.setSizeFull();
       		primoFiltro.setPlaceholder("Seriale");
         
         
-            
-    		
+      		TextField secondoFiltro = new TextField();
+      		secondoFiltro.setValueChangeMode(ValueChangeMode.EAGER);
+      		ricerche.getCell(secondaColonna).setComponent(secondoFiltro);
+      		secondoFiltro.setSizeFull();
+      		secondoFiltro.setPlaceholder("Documento");
+        
+      		TextField terzoFiltro = new TextField();
+      		terzoFiltro.setValueChangeMode(ValueChangeMode.EAGER);
+      		ricerche.getCell(terzaColonna).setComponent(terzoFiltro);
+      		terzoFiltro.setSizeFull();
+      		terzoFiltro.setPlaceholder("Cliente");
 
 		
 		

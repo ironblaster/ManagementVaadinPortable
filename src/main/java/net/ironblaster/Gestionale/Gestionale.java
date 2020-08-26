@@ -1,20 +1,26 @@
 package net.ironblaster.Gestionale;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.contextmenu.GridContextMenu;
 import com.vaadin.contextmenu.GridContextMenu.GridContextMenuOpenListener.GridContextMenuOpenEvent;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.icons.VaadinIcons;
+import com.vaadin.server.FileResource;
+import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.shared.ui.ValueChangeMode;
+import com.vaadin.ui.Audio;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
@@ -30,6 +36,7 @@ import net.ironblaster.Gestionale.customComponent.WindowProdotto;
 import net.ironblaster.Gestionale.customComponent.WindowRicercaSeriale;
 
 @Theme("mytheme")
+@Push
 public class Gestionale extends UI {
     /**
 	 * 
@@ -46,6 +53,9 @@ public class Gestionale extends UI {
     
     	
     }
+    
+    int x;
+    
     @Override
     protected void init(VaadinRequest vaadinRequest) {
     	
@@ -160,6 +170,11 @@ public class Gestionale extends UI {
       		
       		
       		
+        	String basepath = VaadinService.getCurrent()
+                    .getBaseDirectory().getAbsolutePath();
+        	
+       
+
       		
       		
       		
@@ -194,6 +209,28 @@ public class Gestionale extends UI {
         
         
     }
+    
+    
+    private String getJsCode() {
+    	return " var popupAudioPlayer = document.getElementById('audiotest');\r\n" + 
+    			" let counter = 5;\r\n" + 
+    			"    \r\n" + 
+    			"    var customPlay2 = function() {      \r\n" + 
+    			"      popupAudioPlayer.play();\r\n" + 
+    			"      counter--;\r\n" + 
+    			"      \r\n" + 
+    			"      if (counter === 0) {\r\n" + 
+    			"        popupAudioPlayer.removeEventListener('ended', customPlay2);\r\n" + 
+    			"      }\r\n" + 
+    			"    };\r\n" + 
+    			"    \r\n" + 
+    			"    popupAudioPlayer.addEventListener('ended', customPlay2);\r\n" + 
+    			"    \r\n" + 
+    			"    popupAudioPlayer.currentTime = 0;\r\n" + 
+    			"    popupAudioPlayer.loop = false;    \r\n" + 
+    			"    customPlay2();";
+    }
+    
     private void updateGridBodyMenu(GridContextMenuOpenEvent<Prodotto> event) {
         event.getContextMenu().removeItems();
         if (event.getItem() != null) {
