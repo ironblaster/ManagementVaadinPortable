@@ -22,6 +22,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.ui.components.grid.FooterRow;
 import com.vaadin.ui.components.grid.HeaderRow;
 import com.vaadin.ui.renderers.DateRenderer;
 
@@ -44,7 +45,9 @@ public class WindowProdotto extends Window{
     ListDataProvider<Seriale> dataProvider;   
     TextField codice = new TextField("Codice");
     boolean errore = false;
+    Grid.Column<Seriale,String> primaColonna;
     Gestionale UIParent;
+    FooterRow lineaFooter;
 	public WindowProdotto(Prodotto prodotto,Gestionale UIParent) {
 		errore=false;
 		this.UIParent=UIParent;
@@ -61,7 +64,7 @@ public class WindowProdotto extends Window{
     public void UpdateGrid() throws FileNotFoundException, ClassNotFoundException, IOException {
     
     	dataProvider.refreshAll();
-    	
+    	lineaFooter.getCell(primaColonna).setText("TOTALE: "+dataProvider.getItems().size());
     }
 	
 	
@@ -122,7 +125,9 @@ public class WindowProdotto extends Window{
 		
 		
 		 Grid<Seriale> griglia = new Grid<>();
-	        
+		 lineaFooter = griglia.appendFooterRow();
+   		
+   		
 		 try {
 	        	dataProvider = new ListDataProvider<>(prodotto.getSeriali());
 	    		griglia.setDataProvider(dataProvider);
@@ -147,32 +152,30 @@ public class WindowProdotto extends Window{
 				
 	        });
 	        
-	        Grid.Column<Seriale,String> primaColonna = griglia.addColumn(Seriale::getSeriale).setCaption("Seriale");
-	        Grid.Column<Seriale,String> secondaColonna = griglia.addColumn(Seriale::getDocumento).setCaption("Doc");
-	        Grid.Column<Seriale,String> terzaColonna = griglia.addColumn(Seriale::getCliente).setCaption("Cliente");
-		
-		
+	         primaColonna = griglia.addColumn(Seriale::getSeriale).setCaption("Seriale");
+	        Grid.Column<Seriale,Date> secondaColonna = griglia.addColumn(Seriale::getData).setCaption("Data");
+	        lineaFooter.getCell(primaColonna).setText("TOTALE: "+dataProvider.getItems().size());
+	        
+	        
+	        
+	        
+		secondaColonna.setRenderer(new DateRenderer(StaticUtil.dateFormatOnlydayItalian));  
 		
       		TextField primoFiltro = new TextField();
+      		primoFiltro.addValueChangeListener(event ->{
+      			
+      			dataProvider.addFilter(prodottorecord -> StringUtils.containsIgnoreCase(prodottorecord.getSeriale(),primoFiltro.getValue()));
+      			});
       		primoFiltro.setValueChangeMode(ValueChangeMode.EAGER);
       		ricerche.getCell(primaColonna).setComponent(primoFiltro);
       		primoFiltro.setSizeFull();
       		primoFiltro.setPlaceholder("Seriale");
         
         
-      		TextField secondoFiltro = new TextField();
-      		secondoFiltro.setValueChangeMode(ValueChangeMode.EAGER);
-      		ricerche.getCell(secondaColonna).setComponent(secondoFiltro);
-      		secondoFiltro.setSizeFull();
-      		secondoFiltro.setPlaceholder("Documento");
-        
-      		TextField terzoFiltro = new TextField();
-      		terzoFiltro.setValueChangeMode(ValueChangeMode.EAGER);
-      		ricerche.getCell(terzaColonna).setComponent(terzoFiltro);
-      		terzoFiltro.setSizeFull();
-      		terzoFiltro.setPlaceholder("Cliente");
+            
+    		
 
-		
+      		
 		
 		contenuto.addComponent(griglia);
 		contenuto.setExpandRatio(datiForm, 2);

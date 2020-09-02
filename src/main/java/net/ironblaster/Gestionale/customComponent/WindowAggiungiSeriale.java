@@ -9,6 +9,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -49,7 +50,7 @@ public class WindowAggiungiSeriale extends Window{
 		 seriale.setId(""+RandomUtils.nextLong());
 		 seriale.focus();
 		 
-		 TextField documento = new TextField("Documento");
+		 TextArea documento = new TextArea("Documento");
 		 documento.setId(""+RandomUtils.nextLong());
 		 
 		 TextField cliente = new TextField("Cliente");

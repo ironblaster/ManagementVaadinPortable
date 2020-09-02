@@ -12,6 +12,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -85,7 +86,7 @@ public class WindowSeriale extends Window{
 		lay.addComponent(hory);
 		
 		
-		 TextField documento = new TextField("Documento");
+		TextArea documento = new TextArea("Documento");
 		 documento.setValue(seriale.getDocumento());
 		 documento.setId(""+RandomUtils.nextLong());
 		 documento.addValueChangeListener(e->{
