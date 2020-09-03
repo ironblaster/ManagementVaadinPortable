@@ -97,7 +97,7 @@ public class WindowAggiungiSeriale extends Window{
 			}
 			 seriale.setValue("");
 			 cliente.setValue("");
-			 data.setValue(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+			 //data.setValue(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 			 seriale.focus();
 
 			 
